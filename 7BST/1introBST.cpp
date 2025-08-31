@@ -89,6 +89,66 @@ int InorderSuccessor(Node* root,int n){
     return successor ? successor->data : -1;
 }
 
+void deleteBST(Node* root,int n){
+    Node* prev = NULL;
+    Node* temp = root;
+    while(temp && temp->data != n){
+        prev = temp;
+        if(temp->data > n) temp = temp->left;
+        else temp = temp->right;
+    }
+
+    // leaf Node
+    if(!temp->left && !temp->right){
+        if(prev->left==temp) prev->left = NULL;
+        else prev->right = NULL;
+    }
+
+    // 1 child
+    else if(!temp->left || !temp->right){
+        if(prev->left==temp){
+            if(temp->left) prev->left = temp->left;
+            else prev->left = temp->right; 
+        }
+        else{
+            if(temp->left) prev->right = temp->left;
+            else prev->right = temp->right;
+        }
+    }
+    // 2 child (internal node)
+    else{
+        Node* succ = temp->right;
+        prev = temp;
+        while(succ->left){
+            prev = succ;
+            succ = succ->left;
+        } 
+        temp->data = succ->data;
+        // delete succ
+        temp = succ;
+
+        // leaf Node
+        if(!temp->left && !temp->right){
+            if(prev->left==temp) prev->left = NULL;
+            else prev->right = NULL;
+        }
+
+        // 1 child
+        else if(!temp->left || !temp->right){
+            if(prev->left==temp){
+                if(temp->left) prev->left = temp->left;
+                else prev->left = temp->right; 
+            }
+            else{
+                if(temp->left) prev->right = temp->left;
+                else prev->right = temp->right;
+            }
+        }
+        
+    }
+
+}
+
 
 int main(){
     Node* root = NULL;
@@ -103,9 +163,11 @@ int main(){
     root = insertBST(root,9);
     inorder(root);
     cout<<endl;
-    cout<<"Inorder Predecessor : "<<InorderPredecessor(root,10);
-    cout<<endl;
-    cout<<"Inorder Successor : "<<InorderSuccessor(root,10);
+    // cout<<"Inorder Predecessor : "<<InorderPredecessor(root,10);
+    // cout<<endl;
+    // cout<<"Inorder Successor : "<<InorderSuccessor(root,10);
+    deleteBST(root,9);
+    inorder(root);
     
 
     return 0;
