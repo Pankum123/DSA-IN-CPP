@@ -150,6 +150,14 @@ void deleteBST(Node* root,int n){
 }
 
 
+// lowestCommonAncestor
+Node* lowestCommonAncestor(Node* root, Node* p, Node* q){
+    if(root->data > p->data && root->data > q->data) return lowestCommonAncestor(root->left,p,q);
+    else if(root->data < p->data && root->data < q->data) return lowestCommonAncestor(root->right,p,q);
+    else return root;
+}
+
+
 int main(){
     Node* root = NULL;
     root = insertBST(root,4);
@@ -166,8 +174,9 @@ int main(){
     // cout<<"Inorder Predecessor : "<<InorderPredecessor(root,10);
     // cout<<endl;
     // cout<<"Inorder Successor : "<<InorderSuccessor(root,10);
-    deleteBST(root,9);
-    inorder(root);
+    // deleteBST(root,9);
+    // inorder(root);
+    cout<<"Lowest Common Ancestor : "<<lowestCommonAncestor(root,root->right->left->right,root->right->right->left)->data;
     
 
     return 0;
