@@ -157,6 +157,25 @@ Node* lowestCommonAncestor(Node* root, Node* p, Node* q){
     else return root;
 }
 
+// isValid BST
+bool isValidBST(Node* root, Node*& prev) {
+        if (root == NULL)
+            return true;
+
+        // Left subtree
+        if (!isValidBST(root->left, prev))
+            return false;
+
+        // Check current node
+        if (prev != NULL && root->data <= prev->data)
+            return false;
+
+        prev = root;
+
+        // Right subtree
+        return isValidBST(root->right, prev);
+    }
+
 
 int main(){
     Node* root = NULL;
@@ -176,7 +195,10 @@ int main(){
     // cout<<"Inorder Successor : "<<InorderSuccessor(root,10);
     // deleteBST(root,9);
     // inorder(root);
-    cout<<"Lowest Common Ancestor : "<<lowestCommonAncestor(root,root->right->left->right,root->right->right->left)->data;
+    // cout<<"Lowest Common Ancestor : "<<lowestCommonAncestor(root,root->right->left->right,root->right->right->left)->data;
+    Node* prev = NULL;
+    cout<<"is valid BST : "<<isValidBST(root,prev);
+    cout<<endl;
     
 
     return 0;
